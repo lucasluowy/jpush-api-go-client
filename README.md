@@ -9,7 +9,7 @@ jpush-api-go-client
 
 使用  
 ----------------------------------- 
-   go get github.com/ylywyn/jpush-api-go-client
+   go get github.com/lucasluowy/jpush-api-go-client
    
    
 推送流程  
