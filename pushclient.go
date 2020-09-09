@@ -13,6 +13,9 @@ const (
 	HOST_NAME_SSL = "https://api.jpush.cn/v3/push"
 	HOST_SCHEDULE = "https://api.jpush.cn/v3/schedules"
 	HOST_REPORT   = "https://report.jpush.cn/v3/received"
+	HOST_MSG_DETAIL = "https://report.jpush.cn/v3/messages/detail"
+	HOST_MESSAGES = "https://report.jpush.cn/v3/messages"
+	HOST_RECEIVED_DETAIL = "https://report.jpush.cn/v3/received/detail"
 	BASE64_TABLE  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 )
 
@@ -131,4 +134,22 @@ func (this *PushClient) SendGetScheduleRequest(schedule_id string, url string) (
 		return "", err
 	}
 	return rsp, nil
+}
+
+//消息统计详情（VIP 专属接口，新）
+func (this *PushClient) GetMessagesDetail(msg_ids string) (string, error) {
+	// this.BaseUrl = HOST_REPORT
+	return this.SendGetReportRequest(msg_ids, HOST_MSG_DETAIL)
+}
+
+//消息统计（VIP 专属接口，旧）
+func (this *PushClient) GetMessages(msg_ids string) (string, error) {
+	// this.BaseUrl = HOST_REPORT
+	return this.SendGetReportRequest(msg_ids, HOST_MESSAGES)
+}
+
+//送达统计详情（新）
+func (this *PushClient) GetReceived(msg_ids string) (string, error) {
+	// this.BaseUrl = HOST_REPORT
+	return this.SendGetReportRequest(msg_ids, HOST_RECEIVED_DETAIL)
 }
