@@ -16,6 +16,7 @@ const (
 	HOST_MSG_DETAIL = "https://report.jpush.cn/v3/messages/detail"
 	HOST_MESSAGES = "https://report.jpush.cn/v3/messages"
 	HOST_RECEIVED_DETAIL = "https://report.jpush.cn/v3/received/detail"
+	HOST_MESSAGE = "https://report.jpush.cn/v3/status/message"
 	BASE64_TABLE  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 )
 
@@ -98,6 +99,10 @@ func (this *PushClient) SendGetReportRequest(msg_ids string, url string) (string
 	return Get(url).SetBasicAuth(this.AppKey, this.MasterSecret).Param("msg_ids", msg_ids).String()
 }
 
+func (this *PushClient) SendGetReportMsgRequest(msg_id string, registration_ids string, url string) (string, error) {
+	return Get(url).SetBasicAuth(this.AppKey, this.MasterSecret).Param("msg_id", msg_id).Param("registration_ids", registration_ids).String()
+}
+
 func UnmarshalResponse(rsp string) (map[string]interface{}, error) {
 	mapRs := map[string]interface{}{}
 	if len(strings.TrimSpace(rsp)) == 0 {
@@ -152,4 +157,9 @@ func (this *PushClient) GetMessages(msg_ids string) (string, error) {
 func (this *PushClient) GetReceived(msg_ids string) (string, error) {
 	// this.BaseUrl = HOST_REPORT
 	return this.SendGetReportRequest(msg_ids, HOST_RECEIVED_DETAIL)
+}
+
+//送达状态查询
+func (this *PushClient) GetMessage(msg_id string, registration_ids string) (string, error) {
+	return this.SendGetReportMsgRequest(msg_id, registration_ids, HOST_MESSAGE)
 }
