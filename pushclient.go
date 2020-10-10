@@ -159,7 +159,7 @@ func (this *PushClient) GetReceived(msg_ids string) (string, error) {
 	return this.SendGetReportRequest(msg_ids, HOST_RECEIVED_DETAIL)
 }
 
-//送达状态查询
+//送达状态查询post
 func (this *PushClient) PostMessage(dataBuf []byte) (string, error) {
 	return this.SendPostReportMsgRequest(dataBuf, HOST_MESSAGE)
 }
