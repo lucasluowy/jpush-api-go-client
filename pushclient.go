@@ -99,8 +99,8 @@ func (this *PushClient) SendGetReportRequest(msg_ids string, url string) (string
 	return Get(url).SetBasicAuth(this.AppKey, this.MasterSecret).Param("msg_ids", msg_ids).String()
 }
 
-func (this *PushClient) SendGetReportMsgRequest(msg_id string, registration_ids string, url string) (string, error) {
-	return Get(url).SetBasicAuth(this.AppKey, this.MasterSecret).Param("msg_id", msg_id).Param("registration_ids", registration_ids).String()
+func (this *PushClient) SendPostReportMsgRequest(jsonParam []byte, url string) (string, error) {
+	return SendPostBytes2(url, jsonParam, this.AuthCode)
 }
 
 func UnmarshalResponse(rsp string) (map[string]interface{}, error) {
@@ -160,6 +160,6 @@ func (this *PushClient) GetReceived(msg_ids string) (string, error) {
 }
 
 //送达状态查询
-func (this *PushClient) GetMessage(msg_id string, registration_ids string) (string, error) {
-	return this.SendGetReportMsgRequest(msg_id, registration_ids, HOST_MESSAGE)
+func (this *PushClient) PostMessage(dataBuf []byte) (string, error) {
+	return this.SendPostReportMsgRequest(dataBuf, HOST_MESSAGE)
 }
